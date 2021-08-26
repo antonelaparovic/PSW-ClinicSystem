@@ -32,16 +32,27 @@ namespace PSW_ClinicSystem.Data
 
 
 
-    }
 
-    public class YourDbContextFactory : IDesignTimeDbContextFactory<DataDbContext>
-    {
-        public DataDbContext CreateDbContext(string[] args)
+
+        // public class YourDbContextFactory : IDesignTimeDbContextFactory<DataDbContext>
+        // {
+        //     public DataDbContext CreateDbContext(string[] args)
+        //     {
+        //         var optionsBuilder = new DbContextOptionsBuilder<DataDbContext>();
+        //         optionsBuilder.UseMySQL("server=localhost;user=root;database=ClinicDb;password=vanjaana1321");
+
+        //         return new DataDbContext(optionsBuilder.Options);
+        //     }
+        // }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<DataDbContext>();
-            optionsBuilder.UseMySQL("server=localhost;user=root;database=ClinicDb;password=vanjaana1321");
+            if (optionsBuilder.IsConfigured)
+            {
+                return;
+            }
 
-            return new DataDbContext(optionsBuilder.Options);
+            optionsBuilder.UseSqlServer("server=localhost;user=root;database=ClinicDb;password=vanjaana1321");
         }
     }
 }
