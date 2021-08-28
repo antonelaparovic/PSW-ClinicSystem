@@ -52,7 +52,7 @@ namespace PSW_ClinicSystem.Data
                 return;
             }
 
-            optionsBuilder.UseSqlServer("server=localhost;user=root;database=ClinicDb;password=vanjaana1321");
+            optionsBuilder.UseMySQL("server=localhost;user=root;database=ClinicDb;password=vanjaana1321");
         }
     }
 }

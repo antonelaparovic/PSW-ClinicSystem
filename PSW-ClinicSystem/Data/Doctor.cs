@@ -15,7 +15,6 @@ namespace PSW_ClinicSystem.Data
 
         public int fieldId { get; set; }       // not null
         public SpecialistField specialistField { get; set; }
-        public ICollection<Appointment> appointment { get; set; } // not null
         public ICollection<Prescription> prescription { get; set; }  // not null
     }
 }

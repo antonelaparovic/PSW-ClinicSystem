@@ -12,7 +12,6 @@ namespace PSW_ClinicSystem.Data
         public string patientName { get; set; }
         public Doctor selectedDoctor { get; set; }    // nullable fk
         public bool isBlocked { get; set; }
-        public ICollection<Appointment> appointment { get; set; }  
         public ICollection<Prescription> prescription { get; set; }
         public ICollection<Referral> referral { get; set; }
         public ICollection<Feedback> feedback { get; set;  }

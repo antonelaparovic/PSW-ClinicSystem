@@ -45,7 +45,7 @@ namespace PSW_ClinicSystem.Migrations
                     b.Property<DateTime>("appointmentTime")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("doctorId")
+                    b.Property<int?>("doctorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("isConfirmed")
@@ -54,7 +54,10 @@ namespace PSW_ClinicSystem.Migrations
                     b.Property<bool>("isRejected")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("patientId")
+                    b.Property<bool>("isTaken")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("patientId")
                         .HasColumnType("int");
 
                     b.HasKey("appointmentId");
@@ -108,12 +111,12 @@ namespace PSW_ClinicSystem.Migrations
                     b.Property<bool>("isDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("patientId1")
+                    b.Property<int>("patientId")
                         .HasColumnType("int");
 
                     b.HasKey("feedbackId");
 
-                    b.HasIndex("patientId1");
+                    b.HasIndex("patientId");
 
                     b.ToTable("Feedback");
                 });
@@ -284,16 +287,12 @@ namespace PSW_ClinicSystem.Migrations
             modelBuilder.Entity("PSW_ClinicSystem.Data.Appointment", b =>
                 {
                     b.HasOne("PSW_ClinicSystem.Data.Doctor", "doctor")
-                        .WithMany("appointment")
-                        .HasForeignKey("doctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("doctorId");
 
                     b.HasOne("PSW_ClinicSystem.Data.Patient", "patient")
-                        .WithMany("appointment")
-                        .HasForeignKey("patientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("patientId");
 
                     b.Navigation("doctor");
 
@@ -319,11 +318,13 @@ namespace PSW_ClinicSystem.Migrations
 
             modelBuilder.Entity("PSW_ClinicSystem.Data.Feedback", b =>
                 {
-                    b.HasOne("PSW_ClinicSystem.Data.Patient", "patientId")
-                        .WithMany()
-                        .HasForeignKey("patientId1");
+                    b.HasOne("PSW_ClinicSystem.Data.Patient", "patient")
+                        .WithMany("feedback")
+                        .HasForeignKey("patientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("patientId");
+                    b.Navigation("patient");
                 });
 
             modelBuilder.Entity("PSW_ClinicSystem.Data.Patient", b =>
@@ -355,7 +356,7 @@ namespace PSW_ClinicSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("PSW_ClinicSystem.Data.Medicine", "medicine")
-                        .WithMany("prescription")
+                        .WithMany()
                         .HasForeignKey("medicineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -400,8 +401,6 @@ namespace PSW_ClinicSystem.Migrations
 
             modelBuilder.Entity("PSW_ClinicSystem.Data.Doctor", b =>
                 {
-                    b.Navigation("appointment");
-
                     b.Navigation("prescription");
                 });
 
@@ -412,14 +411,9 @@ namespace PSW_ClinicSystem.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("PSW_ClinicSystem.Data.Medicine", b =>
-                {
-                    b.Navigation("prescription");
-                });
-
             modelBuilder.Entity("PSW_ClinicSystem.Data.Patient", b =>
                 {
-                    b.Navigation("appointment");
+                    b.Navigation("feedback");
 
                     b.Navigation("prescription");
 

@@ -25,7 +25,7 @@ namespace PSW_ClinicSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly(typeof(DataDbContext).Assembly.FullName)));  // radilo je sa UseMySql
+            services.AddDbContext<DataDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly(typeof(DataDbContext).Assembly.FullName)));  // radilo je sa UseMySql
             services.AddControllersWithViews();
         }
 

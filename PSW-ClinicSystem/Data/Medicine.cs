@@ -10,6 +10,5 @@ namespace PSW_ClinicSystem.Data
     {
         [Key] public int medicineId { get; set; }
         public string medicineName { get; set; }
-        public ICollection<Prescription> prescription { get; set; }
     }
 }
