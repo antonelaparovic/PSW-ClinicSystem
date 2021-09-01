@@ -49,13 +49,13 @@ namespace PSW_ClinicSystem.Migrations
                 name: "SpecialistField",
                 columns: table => new
                 {
-                    fieldId = table.Column<int>(type: "int", nullable: false)
+                    specialistFieldId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     fieldName = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpecialistField", x => x.fieldId);
+                    table.PrimaryKey("PK_SpecialistField", x => x.specialistFieldId);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,8 +64,10 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     adminId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    adminName = table.Column<string>(type: "text", nullable: true),
-                    hospitalId = table.Column<int>(type: "int", nullable: false)
+                    name = table.Column<string>(type: "text", nullable: true),
+                    hospitalId = table.Column<int>(type: "int", nullable: false),
+                    role = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,8 +86,10 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     pharmacistId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    pharmacistName = table.Column<string>(type: "text", nullable: true),
-                    pharmacyId = table.Column<int>(type: "int", nullable: false)
+                    name = table.Column<string>(type: "text", nullable: true),
+                    pharmacyId = table.Column<int>(type: "int", nullable: false),
+                    role = table.Column<int>(type: "int", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -104,10 +108,12 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     doctorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    doctorName = table.Column<string>(type: "text", nullable: true),
+                    name = table.Column<string>(type: "text", nullable: true),
                     hospitalId = table.Column<int>(type: "int", nullable: false),
                     fieldId = table.Column<int>(type: "int", nullable: false),
-                    specialistFieldfieldId = table.Column<int>(type: "int", nullable: true)
+                    specialistFieldId = table.Column<int>(type: "int", nullable: true),
+                    role = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,10 +125,10 @@ namespace PSW_ClinicSystem.Migrations
                         principalColumn: "hospitalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Doctor_SpecialistField_specialistFieldfieldId",
-                        column: x => x.specialistFieldfieldId,
+                        name: "FK_Doctor_SpecialistField_specialistFieldId",
+                        column: x => x.specialistFieldId,
                         principalTable: "SpecialistField",
-                        principalColumn: "fieldId",
+                        principalColumn: "specialistFieldId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -132,19 +138,21 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     patientId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    patientName = table.Column<string>(type: "text", nullable: true),
-                    selectedDoctordoctorId = table.Column<int>(type: "int", nullable: true),
-                    isBlocked = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    name = table.Column<string>(type: "text", nullable: true),
+                    doctorId = table.Column<int>(type: "int", nullable: false),
+                    isBlocked = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    role = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patient", x => x.patientId);
                     table.ForeignKey(
-                        name: "FK_Patient_Doctor_selectedDoctordoctorId",
-                        column: x => x.selectedDoctordoctorId,
+                        name: "FK_Patient_Doctor_doctorId",
+                        column: x => x.doctorId,
                         principalTable: "Doctor",
                         principalColumn: "doctorId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,12 +161,13 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     appointmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    patientId = table.Column<int>(type: "int", nullable: true),
-                    doctorId = table.Column<int>(type: "int", nullable: true),
+                    patientId = table.Column<int>(type: "int", nullable: false),
+                    doctorId = table.Column<int>(type: "int", nullable: false),
                     appointmentTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     isConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     isRejected = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    isTaken = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    isTaken = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    priority = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,13 +177,13 @@ namespace PSW_ClinicSystem.Migrations
                         column: x => x.doctorId,
                         principalTable: "Doctor",
                         principalColumn: "doctorId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Appointment_Patient_patientId",
                         column: x => x.patientId,
                         principalTable: "Patient",
                         principalColumn: "patientId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,8 +248,7 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     referralId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    orderedBy = table.Column<int>(type: "int", nullable: false),
-                    orderedByDoctordoctorId = table.Column<int>(type: "int", nullable: true),
+                    doctorId = table.Column<int>(type: "int", nullable: false),
                     patientId = table.Column<int>(type: "int", nullable: false),
                     specialistId = table.Column<int>(type: "int", nullable: false),
                     isUsed = table.Column<bool>(type: "tinyint(1)", nullable: false)
@@ -249,11 +257,11 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     table.PrimaryKey("PK_Referral", x => x.referralId);
                     table.ForeignKey(
-                        name: "FK_Referral_Doctor_orderedByDoctordoctorId",
-                        column: x => x.orderedByDoctordoctorId,
+                        name: "FK_Referral_Doctor_doctorId",
+                        column: x => x.doctorId,
                         principalTable: "Doctor",
                         principalColumn: "doctorId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Referral_Doctor_specialistId",
                         column: x => x.specialistId,
@@ -289,9 +297,9 @@ namespace PSW_ClinicSystem.Migrations
                 column: "hospitalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctor_specialistFieldfieldId",
+                name: "IX_Doctor_specialistFieldId",
                 table: "Doctor",
-                column: "specialistFieldfieldId");
+                column: "specialistFieldId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Feedback_patientId",
@@ -299,9 +307,9 @@ namespace PSW_ClinicSystem.Migrations
                 column: "patientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Patient_selectedDoctordoctorId",
+                name: "IX_Patient_doctorId",
                 table: "Patient",
-                column: "selectedDoctordoctorId");
+                column: "doctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pharmacist_pharmacyId",
@@ -324,9 +332,9 @@ namespace PSW_ClinicSystem.Migrations
                 column: "patientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Referral_orderedByDoctordoctorId",
+                name: "IX_Referral_doctorId",
                 table: "Referral",
-                column: "orderedByDoctordoctorId");
+                column: "doctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Referral_patientId",

@@ -27,8 +27,7 @@ namespace PSW_ClinicSystem.Data
         public DbSet<Prescription> Prescription { get; set; }
         public DbSet<Referral> Referral { get; set; }
         public DbSet<SpecialistField> SpecialistField { get; set; }
-
-
+        
 
 
 

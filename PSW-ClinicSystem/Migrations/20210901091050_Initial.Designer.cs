@@ -9,7 +9,7 @@ using PSW_ClinicSystem.Data;
 namespace PSW_ClinicSystem.Migrations
 {
     [DbContext(typeof(DataDbContext))]
-    [Migration("20210828100307_Initial")]
+    [Migration("20210901091050_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,17 @@ namespace PSW_ClinicSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("adminName")
+                    b.Property<string>("Password")
                         .HasColumnType("text");
 
                     b.Property<int>("hospitalId")
                         .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("role")
+                        .HasColumnType("text");
 
                     b.HasKey("adminId");
 
@@ -47,7 +53,7 @@ namespace PSW_ClinicSystem.Migrations
                     b.Property<DateTime>("appointmentTime")
                         .HasColumnType("datetime");
 
-                    b.Property<int?>("doctorId")
+                    b.Property<int>("doctorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("isConfirmed")
@@ -59,8 +65,11 @@ namespace PSW_ClinicSystem.Migrations
                     b.Property<bool>("isTaken")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("patientId")
+                    b.Property<int>("patientId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("priority")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("appointmentId");
 
@@ -77,7 +86,7 @@ namespace PSW_ClinicSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("doctorName")
+                    b.Property<string>("Password")
                         .HasColumnType("text");
 
                     b.Property<int>("fieldId")
@@ -86,14 +95,20 @@ namespace PSW_ClinicSystem.Migrations
                     b.Property<int>("hospitalId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("specialistFieldfieldId")
+                    b.Property<string>("name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("role")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("specialistFieldId")
                         .HasColumnType("int");
 
                     b.HasKey("doctorId");
 
                     b.HasIndex("hospitalId");
 
-                    b.HasIndex("specialistFieldfieldId");
+                    b.HasIndex("specialistFieldId");
 
                     b.ToTable("Doctor");
                 });
@@ -154,18 +169,24 @@ namespace PSW_ClinicSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<int>("doctorId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("isBlocked")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("patientName")
+                    b.Property<string>("name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("selectedDoctordoctorId")
-                        .HasColumnType("int");
+                    b.Property<string>("role")
+                        .HasColumnType("text");
 
                     b.HasKey("patientId");
 
-                    b.HasIndex("selectedDoctordoctorId");
+                    b.HasIndex("doctorId");
 
                     b.ToTable("Patient");
                 });
@@ -176,10 +197,16 @@ namespace PSW_ClinicSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("pharmacistName")
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("name")
                         .HasColumnType("text");
 
                     b.Property<int>("pharmacyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("role")
                         .HasColumnType("int");
 
                     b.HasKey("pharmacistId");
@@ -235,14 +262,11 @@ namespace PSW_ClinicSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("doctorId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("isUsed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("orderedBy")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("orderedByDoctordoctorId")
-                        .HasColumnType("int");
 
                     b.Property<int>("patientId")
                         .HasColumnType("int");
@@ -252,7 +276,7 @@ namespace PSW_ClinicSystem.Migrations
 
                     b.HasKey("referralId");
 
-                    b.HasIndex("orderedByDoctordoctorId");
+                    b.HasIndex("doctorId");
 
                     b.HasIndex("patientId");
 
@@ -263,14 +287,14 @@ namespace PSW_ClinicSystem.Migrations
 
             modelBuilder.Entity("PSW_ClinicSystem.Data.SpecialistField", b =>
                 {
-                    b.Property<int>("fieldId")
+                    b.Property<int>("specialistFieldId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("fieldName")
                         .HasColumnType("text");
 
-                    b.HasKey("fieldId");
+                    b.HasKey("specialistFieldId");
 
                     b.ToTable("SpecialistField");
                 });
@@ -290,11 +314,15 @@ namespace PSW_ClinicSystem.Migrations
                 {
                     b.HasOne("PSW_ClinicSystem.Data.Doctor", "doctor")
                         .WithMany()
-                        .HasForeignKey("doctorId");
+                        .HasForeignKey("doctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PSW_ClinicSystem.Data.Patient", "patient")
                         .WithMany()
-                        .HasForeignKey("patientId");
+                        .HasForeignKey("patientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("doctor");
 
@@ -311,7 +339,7 @@ namespace PSW_ClinicSystem.Migrations
 
                     b.HasOne("PSW_ClinicSystem.Data.SpecialistField", "specialistField")
                         .WithMany("Doctor")
-                        .HasForeignKey("specialistFieldfieldId");
+                        .HasForeignKey("specialistFieldId");
 
                     b.Navigation("hospital");
 
@@ -331,11 +359,13 @@ namespace PSW_ClinicSystem.Migrations
 
             modelBuilder.Entity("PSW_ClinicSystem.Data.Patient", b =>
                 {
-                    b.HasOne("PSW_ClinicSystem.Data.Doctor", "selectedDoctor")
+                    b.HasOne("PSW_ClinicSystem.Data.Doctor", "doctor")
                         .WithMany()
-                        .HasForeignKey("selectedDoctordoctorId");
+                        .HasForeignKey("doctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("selectedDoctor");
+                    b.Navigation("doctor");
                 });
 
             modelBuilder.Entity("PSW_ClinicSystem.Data.Pharmacist", b =>
@@ -378,9 +408,11 @@ namespace PSW_ClinicSystem.Migrations
 
             modelBuilder.Entity("PSW_ClinicSystem.Data.Referral", b =>
                 {
-                    b.HasOne("PSW_ClinicSystem.Data.Doctor", "orderedByDoctor")
+                    b.HasOne("PSW_ClinicSystem.Data.Doctor", "doctor")
                         .WithMany()
-                        .HasForeignKey("orderedByDoctordoctorId");
+                        .HasForeignKey("doctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PSW_ClinicSystem.Data.Patient", "patient")
                         .WithMany("referral")
@@ -394,7 +426,7 @@ namespace PSW_ClinicSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("orderedByDoctor");
+                    b.Navigation("doctor");
 
                     b.Navigation("patient");
 
