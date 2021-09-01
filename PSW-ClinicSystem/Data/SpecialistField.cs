@@ -8,7 +8,7 @@ namespace PSW_ClinicSystem.Data
 {
     public class SpecialistField
     {
-        [Key] public int fieldId { get; set; }
+        [Key] public int specialistFieldId { get; set; }
         public string fieldName { get; set; }
         public ICollection<Doctor> Doctor { get; set; }
     }
