@@ -17,9 +17,10 @@ namespace PSW_ClinicSystem.Data
         public int hospitalId { get; set; }     // not null
         public virtual Hospital hospital { get; set; }
 
-        [ForeignKey("SpecialistField")]
-        public int specialistFieldId { get; set; }       // not null
+        [ForeignKey("specialistFieldId")]
         public virtual SpecialistField specialistField { get; set; }
+
+        public int specialistFieldId { get; set; }       // not null
 
         public ICollection<Prescription> prescription { get; set; }  // not null
         public string role { get; set; } // always doctor

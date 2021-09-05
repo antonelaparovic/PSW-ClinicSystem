@@ -15,11 +15,13 @@ namespace PSW_ClinicSystem.Data
 
         }
 
+        public DataDbContext() : base() { }    // zbog testova repoa
+
         public DbSet<Hospital> Hospital { get; set; }
         public DbSet<Admin> Admin { get; set; }
         public DbSet<Appointment> Appointment { get; set; }
         public DbSet<Doctor> Doctor { get; set; }
-        public DbSet<Feedback> Feedback { get; set; }
+        public virtual DbSet<Feedback> Feedback { get; set; }
         public DbSet<Medicine> Medicine { get; set; }
         public DbSet<Patient> Patient { get; set; }
         public DbSet<Pharmacist> Pharmacist { get; set; }

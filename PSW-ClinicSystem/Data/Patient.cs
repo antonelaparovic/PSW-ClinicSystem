@@ -13,9 +13,9 @@ namespace PSW_ClinicSystem.Data
         [Key] public int patientId { get; set; }
         public string name { get; set; }
 
-        [ForeignKey("Doctor")]
-        public int doctorId { get; set; }
+        [ForeignKey("doctorId")]
         public virtual Doctor doctor { get; set; }    // nullable fk
+        public int doctorId { get; set; }
         public bool isBlocked { get; set; }
         public ICollection<Prescription> prescription { get; set; }
         public ICollection<Referral> referral { get; set; }
