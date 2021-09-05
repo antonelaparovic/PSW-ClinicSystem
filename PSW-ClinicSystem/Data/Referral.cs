@@ -11,17 +11,20 @@ namespace PSW_ClinicSystem.Data
     {
         [Key] public int referralId { get; set; }
 
-        [ForeignKey("Doctor")]
-        public int doctorId { get; set; }      // atm nullable, TO DO change 
+        [ForeignKey("doctorId")]
         public virtual Doctor doctor { get; set; }
 
-        [ForeignKey("Patient")]
-        public int patientId { get; set; }
+        public int doctorId { get; set; }      // atm nullable, TO DO change 
+
+        [ForeignKey("patientId")]
         public virtual Patient patient { get; set; }
 
-        [ForeignKey("Doctor")]
-        public int specialistId { get; set; }   // atm nullable, TO DO change 
+        public int patientId { get; set; }
+
+        [ForeignKey("specialistId")]
         public virtual Doctor specialist { get; set; }
+
+        public int specialistId { get; set; }   // atm nullable, TO DO change 
         public bool isUsed { get; set; }
     }
 }

@@ -16,12 +16,13 @@ namespace PSW_ClinicSystem.Data
             this.isApproved = isApproved;
             this.isDeleted = isDeleted;
         }
+        public Feedback() { }
 
         [Key] public int feedbackId { get; set; }
 
-        [ForeignKey("Patient")]
-        public int patientId { get; set; }  
+        [ForeignKey("patientId")]    // Patient
         public virtual Patient patient { get; set; }
+        public int patientId { get; set; }  
         public string content { get; set; }
         public bool isApproved { get; set; }
         public bool isDeleted { get; set; }

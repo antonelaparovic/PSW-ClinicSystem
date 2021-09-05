@@ -11,13 +11,14 @@ namespace PSW_ClinicSystem.Data
     {
         [Key] public int appointmentId { get; set;  }
 
-        [ForeignKey("Patient")]
-        public int patientId { get; set; }
+        [ForeignKey("patientId")]
         public virtual Patient patient { get; set; }
 
-        [ForeignKey("Doctor")]
-        public int doctorId { get; set; }
+        public int? patientId { get; set; }     // to be nullable for initial free appointments in Db
+
+        [ForeignKey("doctorId")]
         public virtual Doctor doctor { get; set; }
+        public int doctorId { get; set; }
         public DateTime appointmentTime { get; set; }
         public bool isConfirmed { get; set; }
         public bool isRejected { get; set; }
