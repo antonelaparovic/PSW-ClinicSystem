@@ -42,6 +42,24 @@ namespace PSW_ClinicSystem.Services
             patientRepository.Save();
         }
 
+        public void BlockPatient(int patientId)
+        {
+
+            var patient = patientRepository.GetById(patientId);
+            patient.isBlocked = true;      // trebalo bi proveriti da li je prvo false
+            patientRepository.Save();
+        }
+
+        public void UnblockPatient(int patientId)
+        {
+
+            var patient = patientRepository.GetById(patientId);
+            patient.isBlocked = false;      // trebalo bi proveriti da li je prvo true
+            patientRepository.Save();
+        }
+
+
+
 
         public PatientResponseDTO GetById(int patientId)
         {
@@ -56,6 +74,12 @@ namespace PSW_ClinicSystem.Services
             return mapper.Map<IEnumerable<PatientResponseDTO>>(patients);
         }
 
+        public PatientResponseDTO GetByName(string patientName)
+        {
+            var patient = patientRepository.GetByName(patientName);
+            return mapper.Map<PatientResponseDTO>(patient);
+
+        }
     }
 }
 

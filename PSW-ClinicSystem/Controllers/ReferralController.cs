@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PSW_ClinicSystem.Controllers
 {
-    [Route("api/referral")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ReferralController : ControllerBase
     {
@@ -106,6 +106,29 @@ namespace PSW_ClinicSystem.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("forPatient/{name}")]
+        public IActionResult GetAllForPatient(string name)
+        {
+            try
+            {
+                var referrals = referralService.GetForPatient(name);   // ResponseDTO
+                if (referrals == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    //  var temp = mapper.Map<Appointment>(appointments);
+                    //  var appointmentResult = mapper.Map<AppointmentDTO>(temp);
+                    return Ok(referrals);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "internal server error");
             }
         }
     }

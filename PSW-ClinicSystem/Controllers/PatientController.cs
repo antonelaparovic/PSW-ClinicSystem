@@ -108,5 +108,43 @@ namespace PSW_ClinicSystem.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPut("block/{id}")]
+        public IActionResult BlockPatient(int id)
+        {
+            try
+            {
+                var fb = patientService.GetById(id);
+                if (fb == null)
+                {
+                    return NotFound();
+                }
+                patientService.BlockPatient(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut("unblock/{id}")]
+        public IActionResult UnblockPatient(int id)
+        {
+            try
+            {
+                var fb = patientService.GetById(id);
+                if (fb == null)
+                {
+                    return NotFound();
+                }
+                patientService.UnblockPatient(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
