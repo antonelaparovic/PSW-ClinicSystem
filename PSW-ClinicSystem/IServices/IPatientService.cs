@@ -12,5 +12,8 @@ namespace PSW_ClinicSystem.IServices
         void CreatePatient(PatientDTO newPatient);
         void DeletePatient(int patientId);
         PatientResponseDTO GetById(int patientId);
+        void BlockPatient(int id);
+        void UnblockPatient(int id);
+        PatientResponseDTO GetByName(string patientName);
     }
 }

@@ -12,5 +12,7 @@ namespace PSW_ClinicSystem.IServices
         void CreateReferral(ReferralDTO newReferral);
         void DeleteReferral(int referralId);
         ReferralResponseDTO GetById(int referralId);
+        IEnumerable<ReferralResponseDTO> GetForPatient(string patientName);
+
     }
 }

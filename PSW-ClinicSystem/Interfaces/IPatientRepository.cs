@@ -9,5 +9,6 @@ namespace PSW_ClinicSystem.Interfaces
 {
     public interface IPatientRepository: IRepository<Patient>
     {
+        Patient GetByName(string patientName);
     }
 }

@@ -11,8 +11,14 @@ namespace PSW_ClinicSystem.Repository
     {
         public PatientRepository(DataDbContext context) : base(context)
         {
-
-            
         }
+
+
+        public Patient GetByName(string patientName)
+        {
+            return DataDbContext.Patient.Where(x => x.name== patientName).FirstOrDefault();
+        }
+
+
     }
 }

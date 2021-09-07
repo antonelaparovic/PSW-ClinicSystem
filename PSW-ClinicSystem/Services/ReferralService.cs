@@ -14,8 +14,9 @@ namespace PSW_ClinicSystem.Services
     {
         private IReferralRepository referralRepository;
         private IMapper mapper; // mapping Db entities to DTOs
+        private IPatientRepository patientRepository;
 
-        public ReferralService(IReferralRepository repository, IMapper maper)
+        public ReferralService(IReferralRepository repository, IMapper maper, IPatientRepository patRepo)
         {
             if (repository == null)
             {
@@ -23,6 +24,7 @@ namespace PSW_ClinicSystem.Services
             }
             referralRepository = repository;
             mapper = maper;
+            patientRepository = patRepo;
         }
 
 
@@ -53,6 +55,13 @@ namespace PSW_ClinicSystem.Services
         public IEnumerable<ReferralResponseDTO> GetReferrals()
         {
             var referrals = referralRepository.GetAll();
+            return mapper.Map<IEnumerable<ReferralResponseDTO>>(referrals);
+        }
+
+        public IEnumerable<ReferralResponseDTO> GetForPatient(string patientName)
+        {
+            var patient = patientRepository.GetByName(patientName);
+            var referrals = referralRepository.GetByPatient(patient);
             return mapper.Map<IEnumerable<ReferralResponseDTO>>(referrals);
         }
 
